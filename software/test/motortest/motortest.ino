@@ -1,24 +1,43 @@
+#define UNO
+
+#ifdef MICROVIEW
 #include <MicroView.h>
+MicroViewWidget *slider;
+#endif
+
 #include <Servo.h>
 
-#define MOTOR_PIN 3
+#ifdef UNO
+#define MOTOR1_PIN 5
+#define MOTOR2_PIN 6
+#define MOTOR3_PIN 7
+#elif defined(MEGA)
+#define MOTOR1_PIN 9
+#define MOTOR2_PIN 10
+#define MOTOR3_PIN 11
+#endif
 
-MicroViewWidget *slider;
-Servo testmotor;
+Servo testmotor1;
+Servo testmotor2;
+Servo testmotor3;
 float cur_speed;
 bool inc;
 
 void setup() {
   // put your setup code here, to run once:
-  testmotor.attach(MOTOR_PIN);
+  testmotor1.attach(MOTOR1_PIN);
+  testmotor2.attach(MOTOR2_PIN);
+  testmotor3.attach(MOTOR3_PIN);
 
   cur_speed = 0;
   inc = true;
 
+#ifdef MICROVIEW
   uView.begin();
   uView.clear(PAGE);
   slider = new MicroViewSlider(0, 0, -100, 100);
   uView.display();
+#endif
 }
 
 void loop() {
@@ -37,10 +56,13 @@ void loop() {
     cur_speed -= 10;
   }
 
-  vexMotorWrite(testmotor, cur_speed);
+  vexMotorWrite(testmotor1, cur_speed);
+  vexMotorWrite(testmotor2, cur_speed);
+  vexMotorWrite(testmotor3, cur_speed);
+#ifdef MICROVIEW
   slider->setValue(cur_speed);
   uView.display();
-  
+#endif
 }
 
 void vexMotorWrite(Servo motor, int speed) {

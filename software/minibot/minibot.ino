@@ -29,4 +29,10 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  writeLEDColour(0xFF0000);
+  delay(300);
+  writeLEDColour(0x00FF00);
+  delay(300);
+  writeLEDColour(0x0000FF);
+  delay(300);
 }

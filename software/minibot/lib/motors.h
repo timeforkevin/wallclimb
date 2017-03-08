@@ -5,8 +5,8 @@
 
 #ifdef MINIBOT
 
-#define LEFT_MOTOR_PIN 5
-#define RIGHT_MOTOR_PIN 6
+#define LEFTMOTORPIN 5
+#define RIGHTMOTORPIN 6
 
 #define LEFTREVERSED false
 #define RIGHTREVERSED true
@@ -15,9 +15,9 @@
 
 #ifdef LIFTBOT
 
-#define LIFT_MOTOR_PIN 11
-#define LEFT_MOTOR_PIN 10
-#define RIGHT_MOTOR_PIN 9
+#define LIFTMOTORPIN 11
+#define LEFTMOTORPIN 10
+#define RIGHTMOTORPIN 9
 
 #define LEFTREVERSED false
 #define RIGHTREVERSED true
@@ -33,9 +33,14 @@
 
 class VexMotor : Servo {
   public:
-    VexMotor(bool is_reversed)
+    VexMotor(int motor_pin, bool is_reversed)
     : Servo() {
+      m_motor_pin = motor_pin;
       m_is_reversed = is_reversed;
+    }
+
+    void init() {
+      attach(m_motor_pin);
     }
 
     void VexMotorWrite(int speed) {
@@ -48,6 +53,7 @@ class VexMotor : Servo {
                        PULSE_WIDTH_MIN,  PULSE_WIDTH_MAX));
     }
   private:
+    int m_motor_pin;
     bool m_is_reversed;
 };
 

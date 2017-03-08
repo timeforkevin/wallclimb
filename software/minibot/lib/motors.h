@@ -33,22 +33,22 @@
 
 class VexMotor : Servo {
   public:
-  	VexMotor(bool is_reversed)
-  	: Servo() {
-  		m_is_reversed = is_reversed;
-  	}
+    VexMotor(bool is_reversed)
+    : Servo() {
+      m_is_reversed = is_reversed;
+    }
 
-  	void VexMotorWrite(int speed) {
-  	  if (m_is_reversed) {
-  	  	speed *= -1;
-  	  }
-  	  speed = constrain(speed, -SPEED_MAX, SPEED_MAX);
+    void VexMotorWrite(int speed) {
+      if (m_is_reversed) {
+      	speed *= -1;
+      }
+      speed = constrain(speed, -SPEED_MAX, SPEED_MAX);
       
       write(map(speed, -SPEED_MAX,       SPEED_MAX, 
                        PULSE_WIDTH_MIN,  PULSE_WIDTH_MAX));
-  	}
+    }
   private:
-  	bool m_is_reversed;
+    bool m_is_reversed;
 };
 
 #endif

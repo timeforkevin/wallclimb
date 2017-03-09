@@ -1,6 +1,3 @@
-#include <MPU9250.h>
-#include <quaternionFilters.h>
-
 /* MPU9250 Basic Example Code
  by: Kris Winer
  date: April 1, 2014
@@ -52,7 +49,7 @@ void setup()
   // digitalWrite(myLed, HIGH);
 
   // // Read the WHO_AM_I register, this is a good test of communication
-  // byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+  byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
   // Serial.print(F("MPU9250 I AM 0x"));
   // Serial.print(c, HEX);
   // Serial.print(F(" I should be 0x"));
@@ -63,7 +60,7 @@ void setup()
     // Serial.println(F("MPU9250 is online..."));
 
     // // Start by performing self test and reporting values
-    // myIMU.MPU9250SelfTest(myIMU.selfTest);
+    myIMU.MPU9250SelfTest(myIMU.selfTest);
     // Serial.print(F("x-axis self test: acceleration trim within : "));
     // Serial.print(myIMU.selfTest[0],1); Serial.println("% of factory value");
     // Serial.print(F("y-axis self test: acceleration trim within : "));
@@ -87,7 +84,7 @@ void setup()
 
     // // Read the WHO_AM_I register of the magnetometer, this is a good test of
     // // communication
-    // byte d = myIMU.readByte(AK8963_ADDRESS, 0x00);
+    byte d = myIMU.readByte(AK8963_ADDRESS, 0x00);
     // Serial.print("AK8963 ");
     // Serial.print("I AM 0x");
     // Serial.print(d, HEX);
@@ -125,7 +122,7 @@ void setup()
 
     // // The next call delays for 4 seconds, and then records about 15 seconds of
     // // data to calculate bias and scale.
-    // myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
+    myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
     // Serial.println("AK8963 mag biases (mG)");
     // Serial.println(myIMU.magBias[0]);
     // Serial.println(myIMU.magBias[1]);
@@ -198,7 +195,7 @@ void loop()
   } // if (readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
 
   // // Must be called before updating quaternions!
-   myIMU.updateTime();
+   // myIMU.updateTime();
 
    // Sensors x (y)-axis of the accelerometer is aligned with the y (x)-axis of
    // the magnetometer; the magnetometer z-axis (+ down) is opposite to z-axis
@@ -208,9 +205,9 @@ void loop()
    // along the x-axis just like in the LSM9DS0 sensor. This rotation can be
    // modified to allow any convenient orientation convention. This is ok by
    // aircraft orientation standards! Pass gyro rate as rad/s
-   MahonyQuaternionUpdate(myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx * DEG_TO_RAD,
-                          myIMU.gy * DEG_TO_RAD, myIMU.gz * DEG_TO_RAD, myIMU.my,
-                          myIMU.mx, myIMU.mz, myIMU.deltat);
+   // MahonyQuaternionUpdate(myIMU.ax, myIMU.ay, myIMU.az, myIMU.gx * DEG_TO_RAD,
+   //                        myIMU.gy * DEG_TO_RAD, myIMU.gz * DEG_TO_RAD, myIMU.my,
+   //                        myIMU.mx, myIMU.mz, myIMU.deltat);
 
   if (!AHRS)
   {

@@ -495,8 +495,8 @@ void MPU9250::MPU9250SelfTest(float * destination)
   // Get average current values of gyro and acclerometer
   for (int ii = 0; ii < 200; ii++)
   {
-Serial.print("BHW::ii = ");
-Serial.println(ii);
+//Serial.print("BHW::ii = ");
+//Serial.println(ii);
     // Read the six raw data registers into data array
     readBytes(MPU9250_ADDRESS, ACCEL_XOUT_H, 6, &rawData[0]);
     // Turn the MSB and LSB into a signed 16-bit value
@@ -615,7 +615,7 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   Serial.println(F("Mag Calibration: Wave device in a figure 8 until done!"));
   Serial.println(
       F("  4 seconds to get ready followed by 15 seconds of sampling)"));
-  delay(4000);
+  // delay(4000);
 
   // shoot for ~fifteen seconds of mag data
   // at 8 Hz ODR, new mag data is available every 125 ms

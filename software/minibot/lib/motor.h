@@ -1,5 +1,5 @@
-#ifndef MOTORS_H
-#define MOTORS_H
+#ifndef MOTOR_H
+#define MOTOR_H
 
 #include <Servo.h>
 

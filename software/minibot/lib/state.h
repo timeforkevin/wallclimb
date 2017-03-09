@@ -1,5 +1,5 @@
-#ifndef STATES_H
-#define STATES_H
+#ifndef STATE_H
+#define STATE_H
 
 #define NUM_STATES 5
 typedef enum {
@@ -12,10 +12,10 @@ typedef enum {
 
 typedef struct {
   State currentstate;
+  unsigned long time;
   float heading;
   float x;
   float y;
 } StateVariables;
-
 
 #endif

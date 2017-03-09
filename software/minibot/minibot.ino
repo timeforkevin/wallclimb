@@ -1,7 +1,9 @@
 #define MINIBOT
-#include "lib/states.h"
-#include "lib/transitions.h"
-#include "lib/motors.h"
+#include "lib/state.h"
+#include "lib/transition.h"
+#include "lib/measure.h"
+#include "lib/actuate.h"
+#include "lib/motor.h"
 #include "lib/LED.h"
 #include "lib/ultrasonic.h"
 
@@ -29,10 +31,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  writeLEDColour(0xFF0000);
-  delay(300);
-  writeLEDColour(0x00FF00);
-  delay(300);
-  writeLEDColour(0x0000FF);
-  delay(300);
+
+  Measure(&statevars);
+  Transition(&statevars);
+  Actuate(&statevars);
 }

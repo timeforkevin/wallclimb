@@ -1,7 +1,7 @@
-#ifndef TRANSITIONS_H
-#define TRANSITIONS_H
+#ifndef TRANSITION_H
+#define TRANSITION_H
 
-#include "states.h"
+#include "state.h"
 
 typedef bool (*TransTestFunc)(const StateVariables*);
 
@@ -18,6 +18,7 @@ TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 /* AprBase */{ invalid, invalid, invalid, invalid, uncond_ }
 };
 
+// Tests each transition condition and makes the neccessary transition
 void Transition(StateVariables* statevars) {
   for (int i = 0; i < NUM_STATES; i++) {
     if (TransTests[statevars->currentstate][i](statevars)) {

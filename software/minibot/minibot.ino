@@ -8,23 +8,23 @@
 #include "lib/ultrasonic.h"
 #include "lib/IMU.h"
 
-  StateVariables statevars;
+StateVariables statevars;
 
-  VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED);
-  VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED);
+VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED);
+VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED);
 
-  Ultrasonic LeftUltra(LEFTECHOPIN, LEFTTRIGPIN);
-  Ultrasonic RightUltra(RIGHTECHOPIN, RIGHTTRIGPIN);
-  Ultrasonic FrontUltra(FRONTECHOPIN, FRONTTRIGPIN);
+Ultrasonic LeftUltra(LEFTECHOPIN, LEFTTRIGPIN);
+Ultrasonic RightUltra(RIGHTECHOPIN, RIGHTTRIGPIN);
+Ultrasonic FrontUltra(FRONTECHOPIN, FRONTTRIGPIN);
 
-  IMU test;
+IMU myIMU;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
 
   initLED();
-  test.init();
+  myIMU.init();
   LeftMotor.init();
   RightMotor.init();
 
@@ -40,9 +40,9 @@ void loop() {
   Transition(&statevars);
   Actuate(&statevars);
 
-//  float x = test.getax();
-//  float y = test.getay();
-//  float z = test.getaz();
+//  float x = myIMU.getax();
+//  float y = myIMU.getay();
+//  float z = myIMU.getaz();
 //
 //  Serial.print("X-accel: "); Serial.print(x); Serial.println("cm/s^2");
 //  Serial.print("Y-accel: "); Serial.print(y); Serial.println("cm/s^2");

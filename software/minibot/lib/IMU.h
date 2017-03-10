@@ -65,62 +65,52 @@ class IMU : MPU9250 {
       Serial.println("Done set up!");
     }
 
-    //// IMU RETURNS ACCEL IN cm/s^2
+    void updateAccelData() {
+      readAccelData(accelCount);
+    }
+
+    void updateGyroData() {
+      readGyroData(gyroCount);  
+    }
+
+    void updateMagData() {
+      readMagData(magCount);
+    }
+
     float getax(){
-      readAccelData(accelCount); 
-      ax = ((float)accelCount[0] * aRes) * 9.81 - accelBias[0];
-      return ax;
+      return ((float)accelCount[0] * aRes) * 9.81 - accelBias[0];
     }
 
     float getay(){
-      readAccelData(accelCount); 
-      ay = ((float)accelCount[1] * aRes) * 9.81 - accelBias[1];
-      return ax;
+      return ((float)accelCount[1] * aRes) * 9.81 - accelBias[1];
     }
 
     float getaz(){
-      readAccelData(accelCount); 
-      az = ((float)accelCount[2] * aRes) * 9.81 - accelBias[2];
-      return ax;
+      return ((float)accelCount[2] * aRes) * 9.81 - accelBias[2];
     }
 
     float getgx(){
-      readGyroData(gyroCount);  
-      gx = (float)gyroCount[0] * gRes;
-      return gx;
+      return (float)gyroCount[0] * gRes;
     }
 
     float getgy(){
-        readGyroData(gyroCount);  
-        gy = (float)gyroCount[1] * gRes;
-        return gy;
+      return (float)gyroCount[1] * gRes;
     }
 
     float getgz(){
-      readGyroData(gyroCount);  
-        gz = (float)gyroCount[2] * gRes;
-        return gz;
+      return (float)gyroCount[2] * gRes;
     }
 
     float getmx(){
-      readMagData(magCount); 
-      mx = (float)magCount[0] * mRes
-              * factoryMagCalibration[0] - magBias[0];
-        return mx;
+      return (float)magCount[0] * mRes * factoryMagCalibration[0] - magBias[0];
     }
 
     float getmy(){
-      readMagData(magCount); 
-      my = (float)magCount[1] * mRes
-                    * factoryMagCalibration[1] - magBias[1];
-          return my;        
+      return (float)magCount[1] * mRes * factoryMagCalibration[1] - magBias[1];
     }
 
     float getmz(){
-      readMagData(magCount); 
-      mz = (float)magCount[2] * mRes
-                  * factoryMagCalibration[2] - magBias[2];
-      return mz;
+      return (float)magCount[2] * mRes * factoryMagCalibration[2] - magBias[2];
     }
 
 };

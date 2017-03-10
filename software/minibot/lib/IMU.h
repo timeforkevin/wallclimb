@@ -7,8 +7,12 @@
 #define SerialDebug true
 
 class IMU {
+	private: 
+	MPU9250 myIMU;
+	
 	public:
-	void setup()
+	IMU()
+	void init()
 	{
 	  Wire.begin();
 	  // TWBR = 12;  // 400 kbit/sec I2C speed
@@ -60,11 +64,64 @@ class IMU {
 	  }
 	}
 
-	//GET ACCEL
+	//// IMU RETURNS ACCEL IN cm/s^2
+	float getax(){
+		myIMU.readAccelData(myIMU.accelCount); 
+		myIMU.ax = ((float)myIMU.accelCount[0] * myIMU.aRes) * 981; // - myIMU.accelBias[0];
+		return myIMU.ax;
+	}
 
-	//GET GYRO
+	float getay(){
+		myIMU.readAccelData(myIMU.accelCount); 
+		myIMU.ay = ((float)myIMU.accelCount[1] * myIMU.aRes) * 981; // - myIMU.accelBias[1];
+		return myIMU.ax;
+	}
 
-	//GET MAG
+	float getaz(){
+		myIMU.readAccelData(myIMU.accelCount); 
+		myIMU.az = ((float)myIMU.accelCount[2] * myIMU.aRes) * 981; // - myIMU.accelBias[2];
+		return myIMU.ax;
+	}
+
+	float getgx(){
+		myIMU.readGyroData(myIMU.gyroCount);  
+		myIMU.gx = (float)myIMU.gyroCount[0] * myIMU.gRes;
+		return myIMU.gx;
+	}
+
+	float getgy(){
+	    myIMU.readGyroData(myIMU.gyroCount);  
+    	myIMU.gy = (float)myIMU.gyroCount[1] * myIMU.gRes;
+    	return myIMU.gy;
+	}
+
+	float getgz(){
+		myIMU.readGyroData(myIMU.gyroCount);  
+	    myIMU.gz = (float)myIMU.gyroCount[2] * myIMU.gRes;
+	    return myIMU.gz;
+	}
+
+	float getmx(){
+		myIMU.readMagData(myIMU.magCount); 
+		myIMU.mx = (float)myIMU.magCount[0] * myIMU.mRes
+  					* myIMU.factoryMagCalibration[0] - myIMU.magBias[0];
+  		return myIMU.mx;
+	}
+
+	float getmy(){
+		myIMU.readMagData(myIMU.magCount); 
+		myIMU.my = (float)myIMU.magCount[1] * myIMU.mRes
+              		* myIMU.factoryMagCalibration[1] - myIMU.magBias[1];
+        return myIMU.my;     		
+	}
+
+	float getmz(){
+		myIMU.readMagData(myIMU.magCount); 
+		myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
+           			* myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
+		return myIMU.mz;
+	}
+
 }
 
 #endif

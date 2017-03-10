@@ -11,10 +11,10 @@ bool uncond_(const StateVariables* statevars) { return true; }
 
 TransTestFunc TransTests[NUM_STATES][NUM_STATES] = 
 {           /* AprWall  AscWall  DesWall  SrcForw  AprBase */
-/* AprWall */{ uncond_, invalid, invalid, invalid, invalid },
-/* AscWall */{ invalid, uncond_, invalid, invalid, invalid },
-/* DesWall */{ invalid, invalid, uncond_, invalid, invalid },
-/* SrcForw */{ invalid, invalid, invalid, uncond_, invalid },
+/* AprWall */{ invalid, uncond_, invalid, invalid, invalid },
+/* AscWall */{ invalid, invalid, uncond_, invalid, invalid },
+/* DesWall */{ invalid, invalid, invalid, uncond_, invalid },
+/* SrcForw */{ invalid, invalid, invalid, invalid, invalid },
 /* AprBase */{ invalid, invalid, invalid, invalid, uncond_ }
 };
 
@@ -26,6 +26,10 @@ void Transition(StateVariables* statevars) {
       break;
     }
   }
+}
+
+bool foundb2(const StateVariables* statevars) {
+  return true;
 }
 
 #endif

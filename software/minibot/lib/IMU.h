@@ -69,19 +69,19 @@ class IMU : MPU9250 {
     //// IMU RETURNS ACCEL IN cm/s^2
     float getax(){
       readAccelData(accelCount); 
-      ax = ((float)accelCount[0] * aRes) * 981; // - accelBias[0];
+      ax = ((float)accelCount[0] * aRes) * 9.81 - accelBias[0];
       return ax;
     }
 
     float getay(){
       readAccelData(accelCount); 
-      ay = ((float)accelCount[1] * aRes) * 981; // - accelBias[1];
+      ay = ((float)accelCount[1] * aRes) * 9.81 - accelBias[1];
       return ax;
     }
 
     float getaz(){
       readAccelData(accelCount); 
-      az = ((float)accelCount[2] * aRes) * 981; // - accelBias[2];
+      az = ((float)accelCount[2] * aRes) * 9.81 - accelBias[2];
       return ax;
     }
 

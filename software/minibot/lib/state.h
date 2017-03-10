@@ -16,6 +16,8 @@ typedef struct {
   float heading;
   float x;
   float y;
+
+  float initheading;
 } StateVariables;
 
 #endif

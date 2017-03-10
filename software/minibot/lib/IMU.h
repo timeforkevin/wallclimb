@@ -1,39 +1,38 @@
 #ifndef IMU_H
 #define IMU_H
 
-#include <quaternionFilters.h>
-#include <MPU9250.h>
+// #include "quaternionFilters.h"
+#include "MPU9250.h"
 
 #define SerialDebug true
 
-class IMU {
+class IMU : MPU9250 {
 	private: 
-	MPU9250 myIMU;
 	
 	public:
-	IMU()
-	void init()
+	IMU() : MPU9250() {}
+	void init() 
 	{
 	  Wire.begin();
 	  // TWBR = 12;  // 400 kbit/sec I2C speed
 	  Serial.begin(38400);
-	  byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+	  byte c = readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
 
 
 	  if (c == 0x71) // WHO_AM_I should always be 0x71
 	  {
 	    // // Start by performing self test and reporting values
-	    myIMU.MPU9250SelfTest(myIMU.selfTest);
+	    MPU9250SelfTest(selfTest);
 
 	    //// GYRO & ACCEL CALIBRATION ////
-	    myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
+	    calibrateMPU9250(gyroBias, accelBias);
 
 	    // Initialize device for active mode read of acclerometer, gyroscope
-	    myIMU.initMPU9250();
+	    initMPU9250();
 
 	    // // Read the WHO_AM_I register of the magnetometer, this is a good test of
 	    // // communication
-	    byte d = myIMU.readByte(AK8963_ADDRESS, 0x00);
+	    byte d = readByte(AK8963_ADDRESS, 0x00);
 	    if (d != 0x48)
 	    {
 	      Serial.println(F("MAG Register failed, abort!"));
@@ -42,15 +41,15 @@ class IMU {
 	    }
 
 	    // Get magnetometer calibration from AK8963 ROM
-	    myIMU.initAK8963(myIMU.factoryMagCalibration);
+	    initAK8963(factoryMagCalibration);
 
 	    // Get sensor resolutions, only need to do this once
-	    myIMU.getAres();
-	    myIMU.getGres();
-	    myIMU.getMres();
+	    getAres();
+	    getGres();
+	    getMres();
 
 	    //// MAGNET CALIBRATION ////
-	    myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
+	    magCalMPU9250(magBias, magScale);
 	  } // if (c == 0x71)
 	  else
 	  {
@@ -62,66 +61,67 @@ class IMU {
 	    Serial.flush();
 	    abort();
 	  }
+	  Serial.println("Done set up!");
 	}
 
 	//// IMU RETURNS ACCEL IN cm/s^2
 	float getax(){
-		myIMU.readAccelData(myIMU.accelCount); 
-		myIMU.ax = ((float)myIMU.accelCount[0] * myIMU.aRes) * 981; // - myIMU.accelBias[0];
-		return myIMU.ax;
+		readAccelData(accelCount); 
+		ax = ((float)accelCount[0] * aRes) * 981; // - accelBias[0];
+		return ax;
 	}
 
 	float getay(){
-		myIMU.readAccelData(myIMU.accelCount); 
-		myIMU.ay = ((float)myIMU.accelCount[1] * myIMU.aRes) * 981; // - myIMU.accelBias[1];
-		return myIMU.ax;
+		readAccelData(accelCount); 
+		ay = ((float)accelCount[1] * aRes) * 981; // - accelBias[1];
+		return ax;
 	}
 
 	float getaz(){
-		myIMU.readAccelData(myIMU.accelCount); 
-		myIMU.az = ((float)myIMU.accelCount[2] * myIMU.aRes) * 981; // - myIMU.accelBias[2];
-		return myIMU.ax;
+		readAccelData(accelCount); 
+		az = ((float)accelCount[2] * aRes) * 981; // - accelBias[2];
+		return ax;
 	}
 
 	float getgx(){
-		myIMU.readGyroData(myIMU.gyroCount);  
-		myIMU.gx = (float)myIMU.gyroCount[0] * myIMU.gRes;
-		return myIMU.gx;
+		readGyroData(gyroCount);  
+		gx = (float)gyroCount[0] * gRes;
+		return gx;
 	}
 
 	float getgy(){
-	    myIMU.readGyroData(myIMU.gyroCount);  
-    	myIMU.gy = (float)myIMU.gyroCount[1] * myIMU.gRes;
-    	return myIMU.gy;
+	    readGyroData(gyroCount);  
+    	gy = (float)gyroCount[1] * gRes;
+    	return gy;
 	}
 
 	float getgz(){
-		myIMU.readGyroData(myIMU.gyroCount);  
-	    myIMU.gz = (float)myIMU.gyroCount[2] * myIMU.gRes;
-	    return myIMU.gz;
+		readGyroData(gyroCount);  
+	    gz = (float)gyroCount[2] * gRes;
+	    return gz;
 	}
 
 	float getmx(){
-		myIMU.readMagData(myIMU.magCount); 
-		myIMU.mx = (float)myIMU.magCount[0] * myIMU.mRes
-  					* myIMU.factoryMagCalibration[0] - myIMU.magBias[0];
-  		return myIMU.mx;
+		readMagData(magCount); 
+		mx = (float)magCount[0] * mRes
+  					* factoryMagCalibration[0] - magBias[0];
+  		return mx;
 	}
 
 	float getmy(){
-		myIMU.readMagData(myIMU.magCount); 
-		myIMU.my = (float)myIMU.magCount[1] * myIMU.mRes
-              		* myIMU.factoryMagCalibration[1] - myIMU.magBias[1];
-        return myIMU.my;     		
+		readMagData(magCount); 
+		my = (float)magCount[1] * mRes
+              		* factoryMagCalibration[1] - magBias[1];
+        return my;     		
 	}
 
 	float getmz(){
-		myIMU.readMagData(myIMU.magCount); 
-		myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
-           			* myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
-		return myIMU.mz;
+		readMagData(magCount); 
+		mz = (float)magCount[2] * mRes
+           			* factoryMagCalibration[2] - magBias[2];
+		return mz;
 	}
 
-}
+};
 
 #endif

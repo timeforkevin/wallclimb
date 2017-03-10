@@ -18,10 +18,12 @@
 #define LIFTMOTORPIN 11
 #define LEFTMOTORPIN 10
 #define RIGHTMOTORPIN 9
+#define WINCHMOTORPIN 12
 
 #define LEFTREVERSED false
 #define RIGHTREVERSED true
 #define LIFTREVERSED false
+#define WINCHREVERSED false
 
 #endif
 
@@ -52,6 +54,7 @@ class VexMotor : Servo {
       write(map(speed, -SPEED_MAX,       SPEED_MAX, 
                        PULSE_WIDTH_MIN,  PULSE_WIDTH_MAX));
     }
+
   private:
     int m_motor_pin;
     bool m_is_reversed;

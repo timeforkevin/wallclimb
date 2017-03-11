@@ -13,10 +13,8 @@
   VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED);
   VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED);
 
-  VexMotor WinchMotor(WINCHMOTORPIN, WINCHREVERSED);
-
-  Ultrasonic LeftUltra(LEFTECHOPIN, LEFTTRIGPIN);
   Ultrasonic RightUltra(RIGHTECHOPIN, RIGHTTRIGPIN);
+  Ultrasonic LeftUltra(LEFTECHOPIN, LEFTTRIGPIN));
   Ultrasonic FrontUltra(FRONTECHOPIN, FRONTTRIGPIN);
 
   IMU myIMU;
@@ -33,14 +31,6 @@ void setup() {
   LeftUltra.init();
   RightUltra.init();
   FrontUltra.init();
-
-  // LIFTBOT CODE
-  WinchMotor.init();
-  LeftMotor.init();
-  RightMotor.init();
-
-  
-
 }
 
 void loop() {

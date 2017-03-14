@@ -8,10 +8,36 @@
 
 class IMU : MPU9250 {
   public:
+    float a[3];
+    float g[3];
+    float m[3];
+
     IMU()
     : MPU9250() {
 
     }
+
+    void updateAccelData() {
+      readAccelData(accelCount);
+      a[0] = ((float)accelCount[0] * aRes) * 9.81 - accelBias[0];
+      a[1] = ((float)accelCount[1] * aRes) * 9.81 - accelBias[1];
+      a[2] = ((float)accelCount[2] * aRes) * 9.81 - accelBias[2];
+    }
+
+    void updateGyroData() {
+      readGyroData(gyroCount);
+      g[0] = (float)gyroCount[0] * gRes;
+      g[1] = (float)gyroCount[1] * gRes;
+      g[2] = (float)gyroCount[2] * gRes;
+    }
+
+    void updateMagData() {
+      readMagData(magCount);
+      m[0] = (float)magCount[0] * mRes * factoryMagCalibration[0] - magBias[0];
+      m[1] = (float)magCount[1] * mRes * factoryMagCalibration[1] - magBias[1];
+      m[2] = (float)magCount[2] * mRes * factoryMagCalibration[2] - magBias[2];
+    }
+
     void init() 
     {
       Wire.begin();
@@ -64,55 +90,6 @@ class IMU : MPU9250 {
       }
       Serial.println("Done set up!");
     }
-
-    void updateAccelData() {
-      readAccelData(accelCount);
-    }
-
-    void updateGyroData() {
-      readGyroData(gyroCount);  
-    }
-
-    void updateMagData() {
-      readMagData(magCount);
-    }
-
-    float getax(){
-      return ((float)accelCount[0] * aRes) * 9.81 - accelBias[0];
-    }
-
-    float getay(){
-      return ((float)accelCount[1] * aRes) * 9.81 - accelBias[1];
-    }
-
-    float getaz(){
-      return ((float)accelCount[2] * aRes) * 9.81 - accelBias[2];
-    }
-
-    float getgx(){
-      return (float)gyroCount[0] * gRes;
-    }
-
-    float getgy(){
-      return (float)gyroCount[1] * gRes;
-    }
-
-    float getgz(){
-      return (float)gyroCount[2] * gRes;
-    }
-
-    float getmx(){
-      return (float)magCount[0] * mRes * factoryMagCalibration[0] - magBias[0];
-    }
-
-    float getmy(){
-      return (float)magCount[1] * mRes * factoryMagCalibration[1] - magBias[1];
-    }
-
-    float getmz(){
-      return (float)magCount[2] * mRes * factoryMagCalibration[2] - magBias[2];
-    }
-
 };
 
 #endif

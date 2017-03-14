@@ -15,10 +15,10 @@ void initLED() {
 // Red: AB
 // Green: CD
 // Blue: EF
-void writeLEDColour(unsigned long int colour) {
-  unsigned long int r = (colour >> 16) & 0xFF;
-  unsigned long int g = (colour >> 8) & 0xFF;
-  unsigned long int b = colour & 0xFF;
+void writeLEDColour(unsigned long colour) {
+  unsigned long r = (colour >> 16) & 0xFF;
+  unsigned long g = (colour >> 8) & 0xFF;
+  unsigned long b = colour & 0xFF;
   analogWrite(R_PIN, (0xFF - r));
   analogWrite(G_PIN, (0xFF - g));
   analogWrite(B_PIN, (0xFF - b));

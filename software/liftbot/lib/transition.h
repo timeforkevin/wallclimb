@@ -17,8 +17,8 @@ bool ___true(const StateVariables* svars) { return true; }
 
 bool moving_(const StateVariables* svars) {
   // TODO Define as constant
-  if (abs(svars->v[0][0]) > 0.5 ||
-      abs(svars->v[1][0]) > 0.5) {
+  if (abs(svars->v[0]) > 0.5 ||
+      abs(svars->v[1]) > 0.5) {
     return true;
   } else {
     return false;
@@ -31,7 +31,7 @@ bool nmoving(const StateVariables* svars) {
 
 bool descend(const StateVariables* svars) {
   // Facing downwards
-  if (abs(svars->a[3][0]) < GRAVITY * 0.1) {
+  if (abs(svars->a[3]) < GRAVITY * 0.1) {
     return true;
   } else {
     return false;
@@ -39,7 +39,7 @@ bool descend(const StateVariables* svars) {
 }
 
 bool upright(const StateVariables* svars) {
-  if (abs(svars->a[3][0]) > GRAVITY * 0.9) {
+  if (abs(svars->a[3]) > GRAVITY * 0.9) {
     return true;
   } else {
     return false;

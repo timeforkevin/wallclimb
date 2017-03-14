@@ -35,9 +35,9 @@ void Measure(StateVariables* svars) {
       svars->m[dim][i] = svars->m[dim][i-1];
       svars->v[dim][i] = svars->v[dim][i-1];
     }
-    svars->a[dim][0] = myIMU.a[dim];
-    svars->g[dim][0] = myIMU.g[dim];
-    svars->m[dim][0] = myIMU.m[dim];
+    svars->a[dim][0] = muIMU.a[dim];
+    svars->g[dim][0] = muIMU.g[dim];
+    svars->m[dim][0] = muIMU.m[dim];
 
     // Discrete integration acceleration -> velocity
     svars->v[dim][0] += 

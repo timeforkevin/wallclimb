@@ -22,22 +22,42 @@ void setup() {
   LiftMotor.init();
 
   //start with turn
-  LeftMotor.VexMotorWrite(50);
-  RightMotor.VexMotorWrite(40);
-  LiftMotor.VexMotorWrite(50);
+  LeftMotor.VexMotorWrite(100);
+  RightMotor.VexMotorWrite(100);
+  LiftMotor.VexMotorWrite(100);
 
-  delay(500);
+  delay(1500);
+  
+  RightMotor.VexMotorWrite(30);
+  delay(1500);
+  
+  RightMotor.VexMotorWrite(100);
+  LeftMotor.VexMotorWrite(25);
+
+  delay(1500);
 
   //go straight
-  RightMotor.VexMotorWrite(50);
+  LeftMotor.VexMotorWrite(1000);
 
-  delay(500);
+  delay(1200);
 
   //once at the top, start winch
   RightMotor.VexMotorWrite(0);
   LeftMotor.VexMotorWrite(0);
-  LiftMotor.VexMotorWrite(0);
+
+  delay(1000);
+  
+  LiftMotor.VexMotorWrite(-10);
+  RightMotor.VexMotorWrite(50);
+  LeftMotor.VexMotorWrite(50);
   WinchMotor.VexMotorWrite(50);
+
+  delay(350);
+  RightMotor.VexMotorWrite(0);
+  LeftMotor.VexMotorWrite(0);
+  LiftMotor.VexMotorWrite(0);
+
+  delay(2500);
 
   //at the bottom, stop winch
   WinchMotor.VexMotorWrite(0);

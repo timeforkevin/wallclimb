@@ -626,13 +626,12 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   // at 100 Hz ODR, new mag data is available every 10 ms
   if (Mmode == M_100HZ)
   {
-    sample_count = 100;
+    sample_count = 1000;
   }
 
   for (ii = 0; ii < sample_count; ii++)
   {
     readMagData(mag_temp);  // Read the mag data
-
     for (int jj = 0; jj < 3; jj++)
     {
       if (mag_temp[jj] > mag_max[jj])

@@ -31,9 +31,9 @@ typedef struct {
 
   unsigned long t[NUM_FILTER];
 
-  long leftdist;
-  long frontdist;
-  long rightdist;
+  long leftdist[NUM_FILTER];
+  long frontdist[NUM_FILTER];
+  long rightdist[NUM_FILTER];
 
   State curstate;
   bool transition;

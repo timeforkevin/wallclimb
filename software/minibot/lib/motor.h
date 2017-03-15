@@ -8,8 +8,8 @@
 #define LEFTMOTORPIN 5
 #define RIGHTMOTORPIN 6
 
-#define LEFTREVERSED false
-#define RIGHTREVERSED true
+#define LEFTREVERSED true
+#define RIGHTREVERSED false
 
 #endif
 

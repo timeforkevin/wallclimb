@@ -4,10 +4,11 @@
 #include "state.h"
 #include <math.h>
 
+#define STARTSTOPACC 0.7
 #define GRAVITY 9.81
-#define MAXULTRA 200
+#define ULTRATHRESH 10
 #define MINULTRA 15
-#define EPS 100
+#define EPS 40
 
 typedef bool (*TransTestFunc)(const StateVariables*);
 
@@ -16,9 +17,20 @@ bool __false(const StateVariables* svars) { return false; }
 bool ___true(const StateVariables* svars) { return true; }
 
 bool moving_(const StateVariables* svars) {
-  // TODO Define as constant
-  if (abs(svars->v[0][0]) > 0.5 ||
-      abs(svars->v[1][0]) > 0.5) {
+  // // TODO Define as constant
+  // if (abs(svars->v[0][0]) > 0.5 ||
+  //     abs(svars->v[1][0]) > 0.5) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+  float avg = 0;
+  for (int i = 0; i < NUM_FILTER; i++) {
+    avg += svars->a[0][i];
+  }
+  avg /= NUM_FILTER;
+
+  if (avg > STARTSTOPACC) {
     return true;
   } else {
     return false;
@@ -26,12 +38,27 @@ bool moving_(const StateVariables* svars) {
 }
 
 bool nmoving(const StateVariables* svars) {
-  return !moving_(svars);
+  float avg = 0;
+  for (int i = 0; i < NUM_FILTER; i++) {
+    avg += svars->a[0][i];
+  }
+  avg /= NUM_FILTER;
+
+  if (avg < -STARTSTOPACC) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool descend(const StateVariables* svars) {
   // Facing downwards
-  if (abs(svars->a[3][0]) < GRAVITY * 0.1) {
+  float avg = 0;
+  for (int i = 0; i < NUM_FILTER; i++) {
+    avg += svars->a[2][i];
+  }
+  avg /= NUM_FILTER;
+  if (abs(avg) < GRAVITY * 0.1) {
     return true;
   } else {
     return false;
@@ -39,7 +66,12 @@ bool descend(const StateVariables* svars) {
 }
 
 bool upright(const StateVariables* svars) {
-  if (abs(svars->a[3][0]) > GRAVITY * 0.9) {
+  float avg = 0;
+  for (int i = 0; i < NUM_FILTER; i++) {
+    avg += svars->a[2][i];
+  }
+  avg /= NUM_FILTER;
+  if (abs(avg) > GRAVITY * 0.9) {
     return true;
   } else {
     return false;
@@ -56,7 +88,13 @@ bool facefor(const StateVariables* svars) {
 }
 
 bool foundL_(const StateVariables* svars) {
-  if (svars->leftdist < MAXULTRA) {
+  int avg = 0;
+  for (int i = 1; i < NUM_FILTER; i++) {
+    avg += svars->leftdist[i];
+  }
+  avg /= (NUM_FILTER-1);
+
+  if (abs(svars->leftdist[0] - avg) > ULTRATHRESH) {
     return true;
   } else {
     return false;
@@ -64,7 +102,13 @@ bool foundL_(const StateVariables* svars) {
 }
 
 bool foundR_(const StateVariables* svars) {
-  if (svars->rightdist < MAXULTRA) {
+  int avg = 0;
+  for (int i = 1; i < NUM_FILTER; i++) {
+    avg += svars->rightdist[i];
+  }
+  avg /= (NUM_FILTER-1);
+
+  if (abs(svars->rightdist[0] - avg) > ULTRATHRESH) {
     return true;
   } else {
     return false;
@@ -81,7 +125,7 @@ bool facetar(const StateVariables* svars) {
 }
 
 bool hitback(const StateVariables* svars) {
-  if (svars->frontdist < MINULTRA) {
+  if (svars->frontdist[0] < MINULTRA) {
     return true;
   } else {
     return false;

@@ -1,6 +1,8 @@
 #ifndef ULTRASONIC_H
 #define ULTRASONIC_H
 
+#include <limits.h>
+
 #define RIGHTECHOPIN 8
 #define RIGHTTRIGPIN 9
 #define FRONTECHOPIN 10

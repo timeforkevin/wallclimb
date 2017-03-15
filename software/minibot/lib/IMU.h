@@ -42,7 +42,6 @@ class IMU : MPU9250 {
     {
       Wire.begin();
       // TWBR = 12;  // 400 kbit/sec I2C speed
-      Serial.begin(38400);
       byte c = readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
 
 
@@ -76,7 +75,29 @@ class IMU : MPU9250 {
         getMres();
 
         //// MAGNET CALIBRATION ////
-        magCalMPU9250(magBias, magScale);
+        // magCalMPU9250(magBias, magScale);
+        magBias[0] = 1000;
+        magBias[1] = 1000;
+        magBias[2] = 1000;
+        magScale[0] = 1.00;
+        magScale[1] = 1.00;
+        magScale[2] = 0.01;
+
+
+// Serial.print(" bias:");
+// Serial.print(magBias[0]);
+// Serial.print(" ");
+// Serial.print(magBias[1]);
+// Serial.print(" ");
+// Serial.print(magBias[2]);
+// Serial.print(" ");
+// Serial.print(" scale:");
+// Serial.print(magScale[0]);
+// Serial.print(" ");
+// Serial.print(magScale[1]);
+// Serial.print(" ");
+// Serial.print(magScale[2]);
+// Serial.print(" ");
       } // if (c == 0x71)
       else
       {

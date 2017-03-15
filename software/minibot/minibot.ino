@@ -10,8 +10,8 @@
 
   StateVariables statevars = {0};
 
-  VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED);
-  VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED);
+  VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED, LEFTBIAS);
+  VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED, RIGHTBIAS);
 
   Ultrasonic RightUltra(RIGHTECHOPIN, RIGHTTRIGPIN);
   Ultrasonic LeftUltra(LEFTECHOPIN, LEFTTRIGPIN);
@@ -70,16 +70,6 @@ void loop() {
   Measure(&statevars);
 Serial.print(statevars.curstate);
 Serial.print(" : ");
-//Serial.print(" mx:");
-//Serial.print(statevars.m[0][0]);
-//Serial.print(" my:");
-//Serial.print(statevars.m[1][0]);
-//Serial.print(" mz:");
-//Serial.print(statevars.m[2][0]);
-Serial.print(" curh:");
-Serial.print(statevars.curheading);
-Serial.print(" tarh:");
-Serial.print(statevars.tarheading);
   Transition(&statevars);
 //printtransition();
   Actuate(&statevars);

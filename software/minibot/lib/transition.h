@@ -17,13 +17,6 @@ bool __false(const StateVariables* svars) { return false; }
 bool ___true(const StateVariables* svars) { return true; }
 
 bool moving_(const StateVariables* svars) {
-  // // TODO Define as constant
-  // if (abs(svars->v[0][0]) > 0.5 ||
-  //     abs(svars->v[1][0]) > 0.5) {
-  //   return true;
-  // } else {
-  //   return false;
-  // }
   float avg = 0;
   for (int i = 0; i < NUM_FILTER; i++) {
     avg += svars->a[0][i];
@@ -134,15 +127,15 @@ bool hitback(const StateVariables* svars) {
 
 const TransTestFunc TransTests[NUM_STATES][NUM_STATES] = 
 {           /* StartSt  AprWall  TopWall  DesWall  AdjHead  SrcForw  Turn90L  Turn90R  Turn180  AprBase */
-/* StartSt */{ __false, moving_, __false, __false, __false, __false, __false, __false, __false, __false },
-/* AprWall */{ __false, __false, nmoving, __false, __false, __false, __false, __false, __false, __false },
-/* TopWall */{ __false, __false, __false, descend, __false, __false, __false, __false, __false, __false },
-/* DesWall */{ __false, __false, __false, __false, upright, __false, __false, __false, __false, __false },
-/* AdjHead */{ __false, __false, __false, __false, __false, facefor, __false, __false, __false, __false },
-/* SrcForw */{ __false, __false, __false, __false, __false, __false, foundL_, foundR_, hitback, __false },
-/* Turn90L */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, facetar },
-/* Turn90R */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, facetar },
-/* Turn180 */{ __false, __false, __false, __false, __false, facetar, __false, __false, __false, __false },
+/* StartSt */{ __false, __false, __false, __false, __false, __false, __false, ___true, __false, __false },
+/* AprWall */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* TopWall */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* DesWall */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* AdjHead */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* SrcForw */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* Turn90L */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
+/* Turn90R */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
+/* Turn180 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
 /* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true }
 };
 

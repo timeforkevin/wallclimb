@@ -8,8 +8,11 @@
 #define LEFTMOTORPIN 5
 #define RIGHTMOTORPIN 6
 
-#define LEFTREVERSED true
-#define RIGHTREVERSED false
+#define LEFTREVERSED false
+#define RIGHTREVERSED true
+
+#define LEFTBIAS 1.0
+#define RIGHTBIAS 0.65
 
 #endif
 
@@ -28,6 +31,7 @@
 #endif
 
 #define SPEED_MAX (100)
+#define TURN_SPEED (30)
 #define PULSE_WIDTH_MIN (1000)
 #define PULSE_WIDTH_MAX (2000)
 
@@ -35,8 +39,9 @@
 
 class VexMotor : Servo {
   public:
-    VexMotor(int motor_pin, bool is_reversed)
+    VexMotor(int motor_pin, bool is_reversed, float bias)
     : Servo() {
+      m_bias = bias;
       m_motor_pin = motor_pin;
       m_is_reversed = is_reversed;
     }
@@ -45,9 +50,11 @@ class VexMotor : Servo {
       attach(m_motor_pin);
     }
 
-    void VexMotorWrite(int speed) {
+    void VexMotorWrite(float speed) {
       if (m_is_reversed) {
-      	speed *= -1;
+      	speed *= -m_bias;
+      } else {
+        speed *= m_bias;
       }
       speed = constrain(speed, -SPEED_MAX, SPEED_MAX);
       
@@ -56,6 +63,7 @@ class VexMotor : Servo {
     }
 
   private:
+    float m_bias;
     int m_motor_pin;
     bool m_is_reversed;
 };

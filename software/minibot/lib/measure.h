@@ -11,7 +11,7 @@ extern Ultrasonic FrontUltra;
 extern IMU myIMU;
 
 float MagToHeading(float mx, float my, float mz) {
-  return atan2(mx, my);
+  return atan2(my, mx);
 }
 
 // Take measurements from sensors and update the state variables

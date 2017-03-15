@@ -104,9 +104,11 @@ const TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 
 // Tests each transition condition and makes the neccessary transition
 void Transition(StateVariables* svars) {
+  svars->transition = false;
   for (int i = 0; i < NUM_STATES; i++) {
     if (TransTests[svars->curstate][i](svars)) {
       svars->curstate = i;
+      svars->transition = true;
       break;
     }
   }

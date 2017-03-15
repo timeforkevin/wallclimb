@@ -36,6 +36,7 @@ typedef struct {
   long rightdist;
 
   State curstate;
+  bool transition;
 } StateVariables;
 
 float diffheading(float h1, float h2) {

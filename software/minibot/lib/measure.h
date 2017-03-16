@@ -68,6 +68,8 @@ void Measure(StateVariables* svars) {
     case StartSt:
       svars->initheading = svars->curheading;
       break;
+    case CheckFo:
+    
     case SrcForw:
       leftdist = LeftUltra.getDistance();
       frontdist = FrontUltra.getDistance();

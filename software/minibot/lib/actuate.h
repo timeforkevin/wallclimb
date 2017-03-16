@@ -22,16 +22,16 @@ extern VexMotor RightMotor;
 // };
 
 const unsigned long StateColours[] = {
-  0xFF0000, // StartSt : Red
-  0xFFFF00, // AprWall : Yellow
-  0x00FF00, // TopWall : Green
-  0x00FFFF, // DesWall : Cyan
-  0x0000FF, // AdjHead : Blue
-  0xFF00FF, // SrcForw : Magenta
-  0xFFFF00, // Turn90L : Orange
-  0xFFFF00, // Turn90R : Yellow Green
-  0x00FFFF, // Turn180 : Green Blue
-  0x00FFFF, // AprBase : Light Blue
+  0xFF0000, //  : Red
+  0xFFFF00, //  : Yellow
+  0x00FF00, //  : Green
+  0x00FFFF, //  : Cyan
+  0x0000FF, //  : Blue
+  0xFF00FF, //  : Magenta
+  0xFFFF00, //  : Orange
+  0xFFFF00, //  : Yellow Green
+  0x00FFFF, //  : Green Blue
+  0x00FFFF, //  : Light Blue
   0xFF00FF, // : Purple
   0xFF007F, // : Red Pink
   0xFFFFFF, // : White
@@ -62,9 +62,15 @@ void DriveForward() {
 void Actuate(StateVariables* svars) {
   switch (svars->curstate) {
     case StartSt:
+      break;
     case AprWall:
+      if (svars->transition) {
+        svars->tartime = svars->t[0] + 7.05*1e6;
+      }
+      break;
     case TopWall:
-      // Do Nothing
+      // Full speed ahead over the wall
+      DriveForward();
       break;
 
     case DesWall:
@@ -73,7 +79,7 @@ void Actuate(StateVariables* svars) {
       break;
 
     case AdjHead:
-      // Turn to face forward
+    case CheckFo:
       break;
 
     case SrcForw:
@@ -98,7 +104,11 @@ void Actuate(StateVariables* svars) {
 
     case AprBase:
       // Drive straight
-      // DriveForward();
+      DriveForward();
+      break;
+    case StopSta:
+      RightMotor.VexMotorWrite(0);
+      LeftMotor.VexMotorWrite(0);
       break;
   }
   // Update colour to represent state

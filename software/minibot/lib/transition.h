@@ -7,8 +7,9 @@
 #define STARTSTOPACC 0.7
 #define GRAVITY 9.81
 #define ULTRATHRESH 10
-#define MINULTRA 15
+#define MINULTRA 20
 #define EPS 40
+#define MAXBASE2DIST 200
 
 typedef bool (*TransTestFunc)(const StateVariables*);
 
@@ -117,7 +118,7 @@ bool facetar(const StateVariables* svars) {
   }
 }
 
-bool hitback(const StateVariables* svars) {
+bool hitend_(const StateVariables* svars) {
   if (svars->frontdist[0] < MINULTRA) {
     return true;
   } else {
@@ -125,18 +126,40 @@ bool hitback(const StateVariables* svars) {
   }
 }
 
+bool atwall_(const StateVariables* svars) {
+  if (svars->t[0] > svars->tartime) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool foundF_(const StateVariables* svars) {
+  if (svars->frontdist[0] < MAXBASE2DIST) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool nFoundF(const StateVariables* svars) {
+  return !foundF_(svars);
+}
+
 const TransTestFunc TransTests[NUM_STATES][NUM_STATES] = 
-{           /* StartSt  AprWall  TopWall  DesWall  AdjHead  SrcForw  Turn90L  Turn90R  Turn180  AprBase */
-/* StartSt */{ __false, __false, __false, __false, __false, __false, __false, ___true, __false, __false },
-/* AprWall */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
-/* TopWall */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
-/* DesWall */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
-/* AdjHead */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
-/* SrcForw */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
-/* Turn90L */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
-/* Turn90R */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
-/* Turn180 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
-/* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true }
+{           /* StartSt  AprWall  TopWall  DesWall  AdjHead  CheckFo  SrcForw  Turn90L  Turn90R  Turn180  AprBase  StopSta */
+/* StartSt */{ __false, moving_, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* AprWall */{ __false, __false, atwall_, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* TopWall */{ __false, __false, __false, descend, __false, __false, __false, __false, __false, __false, __false, __false },
+/* DesWall */{ __false, __false, __false, __false, upright, __false, __false, __false, __false, __false, __false, __false },
+/* AdjHead */{ __false, __false, __false, __false, __false, ___true, __false, __false, __false, __false, __false, __false },
+/* CheckFo */{ __false, __false, __false, __false, __false, __false, nFoundF, __false, __false, __false, foundF_, __false },
+/* SrcForw */{ __false, __false, __false, __false, __false, __false, __false, foundL_, __false, hitend_, __false, __false },
+/* Turn90L */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, __false },
+/* Turn90R */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, __false },
+/* Turn180 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
+/* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, hitend_ },
+/* StopSta */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true }
 };
 
 // Tests each transition condition and makes the neccessary transition

@@ -46,9 +46,6 @@ void setup() {
   Serial.begin(38400);
 
   statevars.curstate = StartSt;
-  statevars.v[0][0] = 0;
-  statevars.v[1][0] = 0;
-  statevars.v[2][0] = 0;
 
   // LED White during calibration
   initLED();
@@ -68,10 +65,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Measure(&statevars);
-Serial.print(statevars.curstate);
-Serial.print(" : ");
   Transition(&statevars);
 //printtransition();
   Actuate(&statevars);
-Serial.print("\n");
 }

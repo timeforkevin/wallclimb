@@ -5,18 +5,20 @@
 
 #define NUM_FILTER 4
 
-#define NUM_STATES 10
+#define NUM_STATES 12
 typedef enum {
   StartSt = 0,
   AprWall = 1,
   TopWall = 2,
   DesWall = 3,
   AdjHead = 4,
-  SrcForw = 5,
-  Turn90L = 6,
-  Turn90R = 7,
-  Turn180 = 8,
-  AprBase = 9
+  CheckFo = 5,
+  SrcForw = 6,
+  Turn90L = 7,
+  Turn90R = 8,
+  Turn180 = 9,
+  AprBase = 10,
+  StopSta = 11
 } State;
 
 typedef struct {
@@ -30,6 +32,7 @@ typedef struct {
   float v[3][NUM_FILTER];
 
   unsigned long t[NUM_FILTER];
+  unsigned long tartime;
 
   long leftdist[NUM_FILTER];
   long frontdist[NUM_FILTER];

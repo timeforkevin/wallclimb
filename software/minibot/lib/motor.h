@@ -12,7 +12,7 @@
 #define RIGHTREVERSED true
 
 #define LEFTBIAS 1.0
-#define RIGHTBIAS 0.65
+#define RIGHTBIAS 0.60
 
 #endif
 
@@ -31,7 +31,7 @@
 #endif
 
 #define SPEED_MAX (100)
-#define TURN_SPEED (30)
+#define TURN_SPEED (26) 
 #define PULSE_WIDTH_MIN (1000)
 #define PULSE_WIDTH_MAX (2000)
 

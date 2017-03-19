@@ -19,7 +19,7 @@ extern VexMotor RightMotor;
 //   0xFF007F, // : Red Pink
 //   0xFFFFFF, // : White
 //   0x000000  // : Black
-// };
+// };        
 
 const unsigned long StateColours[] = {
   0xFF0000, //  : Red
@@ -42,12 +42,12 @@ void TurnHeading(float turnangle) {
   if (turnangle > 0) {
     RightMotor.VexMotorWrite(TURN_SPEED);
     LeftMotor.VexMotorWrite(-TURN_SPEED);
-    delay(550*abs(turnangle));
+    delay(400*abs(turnangle));
 
   } else {
     RightMotor.VexMotorWrite(-TURN_SPEED);
     LeftMotor.VexMotorWrite(TURN_SPEED);
-    delay(600*abs(turnangle));
+    delay(450*abs(turnangle));
   }
 
   RightMotor.VexMotorWrite(0);
@@ -105,11 +105,17 @@ void Actuate(StateVariables* svars) {
     case AprBase:
       // Drive straight
       DriveForward();
-      break;
+    break;
+
+    case ClimbB2:
+      RightMotor.VexMotorWrite(50); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
+      delay(1500);
+    break;
+
     case StopSta:
       RightMotor.VexMotorWrite(0);
       LeftMotor.VexMotorWrite(0);
-      break;
+    break;
   }
   // Update colour to represent state
   writeLEDColour(StateColours[svars->curstate]);

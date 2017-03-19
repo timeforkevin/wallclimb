@@ -69,6 +69,15 @@ void Measure(StateVariables* svars) {
       svars->initheading = svars->curheading;
       break;
     case CheckFo:
+
+    case AprBase:
+      leftdist = LeftUltra.getDistance();
+      frontdist = FrontUltra.getDistance();
+      rightdist = RightUltra.getDistance();
+      svars->leftdist[0] = (leftdist) ? leftdist : svars->leftdist[1];
+      svars->frontdist[0] = (frontdist) ? frontdist : svars->frontdist[1];
+      svars->rightdist[0] = (rightdist) ? rightdist : svars->rightdist[1];
+      break;
     
     case SrcForw:
       leftdist = LeftUltra.getDistance();
@@ -77,7 +86,9 @@ void Measure(StateVariables* svars) {
       svars->leftdist[0] = (leftdist) ? leftdist : svars->leftdist[1];
       svars->frontdist[0] = (frontdist) ? frontdist : svars->frontdist[1];
       svars->rightdist[0] = (rightdist) ? rightdist : svars->rightdist[1];
-      break;
+      delay(200);
+    break;
+
   }
 
 }

@@ -5,7 +5,7 @@
 
 #define NUM_FILTER 4
 
-#define NUM_STATES 12
+#define NUM_STATES 13
 typedef enum {
   StartSt = 0,
   AprWall = 1,
@@ -18,7 +18,8 @@ typedef enum {
   Turn90R = 8,
   Turn180 = 9,
   AprBase = 10,
-  StopSta = 11
+  ClimbB2 = 11,
+  StopSta = 12
 } State;
 
 typedef struct {

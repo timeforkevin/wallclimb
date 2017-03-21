@@ -42,10 +42,9 @@ void printtransition() {
 }
 
 void setup() {
-  // put your setup code here , to run once:
   Serial.begin(38400);
 
-  statevars.curstate = CheckFo;
+  statevars.curstate = StartSt;
 
   // LED White during calibration
   initLED();
@@ -65,12 +64,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Measure(&statevars);
-  //Transition(&statevars);
+  Transition(&statevars);
   //printtransition();
-  //Actuate(&statevars);
-
-  Serial.print("Right Ultra: "); Serial.print(statevars.rightdist[0]);
-  Serial.print("  Left Ultra: "); Serial.println(statevars.leftdist[0]);
-  delay(50);
-
+  Actuate(&statevars);
 }

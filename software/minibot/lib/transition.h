@@ -48,33 +48,23 @@ bool nmoving(const StateVariables* svars) {
 
 bool descend(const StateVariables* svars) {
   // Facing downwards
-  float avg = 0;
-  for (int i = 0; i < NUM_FILTER; i++) {
-    avg += svars->a[2][i];
-  }
-  avg /= NUM_FILTER;
-  if (abs(avg) < GRAVITY * 0.1) {
-    return true;
+  if(svars->countTopa > 10) {
+      return true;
   } else {
-    return false;
+      return false;
   }
 }
 
 bool upright(const StateVariables* svars) {
-  float avg = 0;
-  for (int i = 0; i < NUM_FILTER; i++) {
-    avg += svars->a[2][i];
-  }
-  avg /= NUM_FILTER;
-  if (abs(avg) > GRAVITY * 0.9) {
-    return true;
+  if(svars->countDesca > 10) {
+      return true;
   } else {
-    return false;
+      return false;
   }
 }
 
 bool facefor(const StateVariables* svars) {
-  if (abs(diffheading(svars->curheading, 
+  if (abs(diffheading(svars->curheading,
                       svars->initheading)) < 2*M_PI/EPS) {
     return true;
   } else {
@@ -83,63 +73,23 @@ bool facefor(const StateVariables* svars) {
 }
 
 bool foundL_(const StateVariables* svars) {
-  int avg = 0;
-  int recentAvg = 0;
-  int zeroCount = 0;
-  int recentValid = 0;
-
-  for (int i = 0; i < NUM_FILTER; i++) {
-    avg += svars->leftdist[i];
-    if (svars->leftdist[i] == 0) {
-      zeroCount += 1;
-    }
-
-    if (i <= 1 && svars->leftdist[i] != 0) {
-      recentAvg += svars->leftdist[i];
-      recentValid += 1;
-    }
-  }
-  avg /= (NUM_FILTER-zeroCount);
-  recentAvg /= (recentValid);
-  
-  if (abs(recentAvg - avg) > ULTRATHRESH ) {
-      return true;
-  }
-  else {
+  if(svars->countUltLeft > 6) {
+    return true;
+  } else {
     return false;
   }
 }
 
 bool foundR_(const StateVariables* svars) {
-  int avg = 0;
-  int recentAvg = 0;
-  int zeroCount = 0;
-  int recentValid = 0;
-
-  for (int i = 0; i < NUM_FILTER; i++) {
-    avg += svars->rightdist[i];
-    if (svars->rightdist[i] == 0) {
-      zeroCount += 1;
-    }
-
-    if (i <= 1 && svars->rightdist[i] != 0) {
-      recentAvg += svars->rightdist[i];
-      recentValid += 1;
-    }
-  }
-  avg /= (NUM_FILTER-zeroCount);
-  recentAvg /= (recentValid);
-  
-  if (abs(recentAvg - avg) > ULTRATRHESHR ) {
-      return true;
-  }
-  else {
+  if(svars->countUltRight > 6) {
+    return true;
+  } else {
     return false;
   }
 }
 
 bool facetar(const StateVariables* svars) {
-  if (abs(diffheading(svars->curheading, 
+  if (abs(diffheading(svars->curheading,
                       svars->tarheading)) < 2*M_PI/EPS) {
     return true;
   } else {
@@ -148,7 +98,7 @@ bool facetar(const StateVariables* svars) {
 }
 
 bool hitend_(const StateVariables* svars) {
-  if (svars->frontdist[0] < MINULTRA) {
+  if (svars->ultFront < MINULTRA) {
     return true;
   } else {
     return false;
@@ -164,7 +114,7 @@ bool atwall_(const StateVariables* svars) {
 }
 
 bool foundF_(const StateVariables* svars) {
-  if (svars->frontdist[0] < MAXBASE2DIST) {
+  if (svars->ultFront < MAXBASE2DIST) {
     return true;
   } else {
     return false;
@@ -175,7 +125,7 @@ bool nFoundF(const StateVariables* svars) {
   return !foundF_(svars);
 }
 
-const TransTestFunc TransTests[NUM_STATES][NUM_STATES] = 
+const TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 {           /* StartSt  AprWall  TopWall  DesWall  AdjHead  CheckFo  SrcForw  Turn90L  Turn90R  Turn180  AprBase  ClimbB2 StopSta */
 /* StartSt */{ __false, moving_, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
 /* AprWall */{ __false, __false, atwall_, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },

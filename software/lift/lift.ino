@@ -1,17 +1,10 @@
 #define LIFTBOT
-// #include "lib/state.h"
-// #include "lib/transition.h"
-// #include "lib/measure.h"
-// #include "lib/actuate.h"
 #include "lib/motor.h"
-// #include "lib/LED.h"
-// #include "lib/ultrasonic.h"
-// #include "lib/IMU.h"
 
-VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED);
-VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED);
-VexMotor LiftMotor(LIFTMOTORPIN, LIFTREVERSED);
-VexMotor WinchMotor(WINCHMOTORPIN, WINCHREVERSED);
+VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED, 1);
+VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED, 1);
+VexMotor LiftMotor(LIFTMOTORPIN, LIFTREVERSED, 1);
+VexMotor WinchMotor(WINCHMOTORPIN, WINCHREVERSED, 1);
 
 
 void setup() {
@@ -21,51 +14,44 @@ void setup() {
   RightMotor.init();
   LiftMotor.init();
 
-  //start with turn
+  //Drive off starting patform
   LeftMotor.VexMotorWrite(100);
   RightMotor.VexMotorWrite(100);
   LiftMotor.VexMotorWrite(100);
-
   delay(1500);
   
+  //Turn left
   RightMotor.VexMotorWrite(30);
   delay(1500);
   
+  //Turn right
   RightMotor.VexMotorWrite(100);
   LeftMotor.VexMotorWrite(25);
-
   delay(1500);
 
-  //go straight
-  LeftMotor.VexMotorWrite(1000);
-
+  //Approach wall
+  LeftMotor.VexMotorWrite(100);
   delay(1200);
 
-//  RightMotor.VexMotorWrite(0);
-//  LeftMotor.VexMotorWrite(0);
-
-  //delay(1000);
-
-    //once at the top, start winch
-
+  //Press against wall
   LiftMotor.VexMotorWrite(0);
   RightMotor.VexMotorWrite(50);
   LeftMotor.VexMotorWrite(50);
-
   delay(350);
+
+  //Drive winch, drop minibot
   WinchMotor.VexMotorWrite(100); // +ve
+  
+  //Stop
   RightMotor.VexMotorWrite(0);
   LeftMotor.VexMotorWrite(0);
   LiftMotor.VexMotorWrite(0);
 
-// 7.05 seconds to get to the wall
-   delay(7000);
+  delay(7000);
 
   //at the bottom, stop winch
   WinchMotor.VexMotorWrite(0);
 
 }
 
-void loop() {
-	// i don't think we need anything here
-}
+void loop() {}

@@ -27,15 +27,14 @@ class Ultrasonic {
 
     long getDistance(int maxRange = MAX_RANGE) {
       // 10us pulse
-      digitalWrite(m_trig_pin, LOW); 
-      delayMicroseconds(2); 
+      digitalWrite(m_trig_pin, LOW);
+      delayMicroseconds(2);
       digitalWrite(m_trig_pin, HIGH);
-      delayMicroseconds(10); 
+      delayMicroseconds(10);
       digitalWrite(m_trig_pin, LOW);
 
-      // Wait for echo
-      long duration = pulseIn(m_echo_pin, HIGH, maxRange*US_TO_CM);
-      return duration/US_TO_CM;
+      // Measure and return echo
+      return pulseIn(m_echo_pin, HIGH, maxRange*US_TO_CM)/US_TO_CM;
     }
   private:
     int m_echo_pin;

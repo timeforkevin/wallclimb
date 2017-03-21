@@ -3,6 +3,8 @@
 #include "ultrasonic.h"
 #include "IMU.h"
 
+#define GRAVITY 9.81
+#define ZAXIS 1
 
 extern Ultrasonic LeftUltra;
 extern Ultrasonic RightUltra;
@@ -30,12 +32,6 @@ void Measure(StateVariables* svars) {
   myIMU.updateMagData();
 
   unsigned long t_last = svars->t[NUM_FILTER];
-  for (int i = 1; i < NUM_FILTER; i++) {
-    svars->t[i] = svars->t[i-1];
-    svars->leftdist[i] = svars->leftdist[i-1];
-    svars->frontdist[i] = svars->frontdist[i-1];
-    svars->rightdist[i] = svars->rightdist[i-1];
-  }
   svars->t[0] = micros();
 
   for (int dim = 0; dim < 3; dim++) {
@@ -43,52 +39,77 @@ void Measure(StateVariables* svars) {
     for (int i = 1; i < NUM_FILTER; i++) {
       svars->a[dim][i] = svars->a[dim][i-1];
       svars->g[dim][i] = svars->g[dim][i-1];
-      svars->m[dim][i] = svars->m[dim][i-1];
-      svars->v[dim][i] = svars->v[dim][i-1];
     }
     svars->a[dim][0] = myIMU.a[dim];
     svars->g[dim][0] = myIMU.g[dim];
-    svars->m[dim][0] = myIMU.m[dim];
-
-    // // Discrete integration acceleration -> velocity
-    // svars->v[dim][0] += 
-    //   (svars->a[dim][0] * (svars->t[0]-svars->t[1]) 
-    //     - svars->a[dim][NUM_FILTER-1] * (svars->t[NUM_FILTER-1] - t_last))
-    //   /(NUM_FILTER * 1e6);
   }
 
-  svars->curheading = MagToHeading(svars->m[0], 
-                                   svars->m[1], 
-                                   svars->m[2]);
-  long leftdist;
-  long frontdist;
-  long rightdist;
+  int leftdist;
+  int frontdist;
+  int rightdist;
 
   switch (svars->curstate) {
     case StartSt:
       svars->initheading = svars->curheading;
       break;
-    case CheckFo:
 
+    case CheckFo:
     case AprBase:
-      leftdist = LeftUltra.getDistance();
       frontdist = FrontUltra.getDistance();
-      rightdist = RightUltra.getDistance();
-      svars->leftdist[0] = (leftdist) ? leftdist : svars->leftdist[1];
-      svars->frontdist[0] = (frontdist) ? frontdist : svars->frontdist[1];
-      svars->rightdist[0] = (rightdist) ? rightdist : svars->rightdist[1];
+      svars->ultFront = (frontdist) ? frontdist : svars->ultFront;
       break;
-    
+
     case SrcForw:
       leftdist = LeftUltra.getDistance();
       frontdist = FrontUltra.getDistance();
       rightdist = RightUltra.getDistance();
-      svars->leftdist[0] = (leftdist) ? leftdist : svars->leftdist[1];
-      svars->frontdist[0] = (frontdist) ? frontdist : svars->frontdist[1];
-      svars->rightdist[0] = (rightdist) ? rightdist : svars->rightdist[1];
-      delay(200);
+      svars->newUltLeft = (leftdist) ? leftdist : svars->newUltLeft;
+      svars->ultFront = (frontdist) ? frontdist : svars->ultFront;
+      svars->newUltRight = (rightdist) ? rightdist : svars->newUltRight;
+
+      if(abs(svars->newUltLeft - svars->oldUltLeft) > 30) {
+        svars->countUltLeft += 1;
+      }
+      else {
+        if(svars->countUltLeft>0) {
+          svars->countUltLeft -= 1;
+        }
+        svars->oldUltLeft = svars->newUltLeft;
+      }
+      if(abs(svars->newUltRight - svars->oldUltRight) > 30) {
+        svars->countUltRight += 1;
+      }
+      else {
+        if(svars->countUltRight>0) {
+          svars->countUltRight -= 1;
+        }
+        svars->oldUltRight = svars->newUltRight;
+      }
+
     break;
 
-  }
+    case TopWall:
+      if(svars->a[ZAXIS][NUM_FILTER] < 0.2*GRAVITY ) {
+          svars->countTopa += 1;
+      }
+      else {
+          if(svars->countTopa>0) {
+              svars->countTopa -= 1;
+          }
+      }
+    break;
+
+    case DesWall:
+      if(svars->a[ZAXIS][NUM_FILTER] > 0.8*GRAVITY ) {
+          svars->countDesca += 1;
+      }
+      else {
+          if(svars->countDesca>0) {
+              svars->countDesca -= 1;
+          }
+      }
+    break;
+
+    }
 
 }

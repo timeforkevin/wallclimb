@@ -45,9 +45,8 @@ void loop() {
   duration = pulseIn(pinEcho1, HIGH, MAX_RANGE*58.2);
   distance = duration/58.2;
 
-  Serial.print("1: ");
+  Serial.print("right: ");
   Serial.print(distance);
-  Serial.print('\n');
 
   // Ultrasonic 2
   digitalWrite(pinTrig2, LOW); 
@@ -60,9 +59,8 @@ void loop() {
   duration = pulseIn(pinEcho2, HIGH, MAX_RANGE*58.2);
   distance = duration/58.2;
 
-  Serial.print("2: ");
+  Serial.print("  front: ");
   Serial.print(distance);
-  Serial.print('\n');
 
   // Ultrasonic 3
   digitalWrite(pinTrig3, LOW); 
@@ -75,7 +73,7 @@ void loop() {
   duration = pulseIn(pinEcho3, HIGH, MAX_RANGE*58.2);
   distance = duration/58.2;
 
-  Serial.print("3: ");
+  Serial.print("  left: ");
   Serial.print(distance);
   Serial.print('\n');
 #ifdef MICROVIEW

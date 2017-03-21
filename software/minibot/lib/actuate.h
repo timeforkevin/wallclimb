@@ -32,7 +32,7 @@ const unsigned long StateColours[] = {
   0xFFFF00, //  : Yellow Green
   0x00FFFF, //  : Green Blue
   0x00FFFF, //  : Light Blue
-  0xFF00FF, // : Purple
+  0xFF0000, // : Red (end)
   0xFF007F, // : Red Pink
   0xFFFFFF, // : White
   0x000000  // : Black

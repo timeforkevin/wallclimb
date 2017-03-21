@@ -11,6 +11,7 @@
 #define MINULTRA 30
 #define EPS 40
 #define MAXBASE2DIST 150
+#define ULTCOUNTS 10
 
 typedef bool (*TransTestFunc)(const StateVariables*);
 
@@ -73,7 +74,7 @@ bool facefor(const StateVariables* svars) {
 }
 
 bool foundL_(const StateVariables* svars) {
-  if(svars->countUltLeft > 6) {
+  if(svars->countUltLeft > ULTCOUNTS) {
     return true;
   } else {
     return false;
@@ -81,7 +82,7 @@ bool foundL_(const StateVariables* svars) {
 }
 
 bool foundR_(const StateVariables* svars) {
-  if(svars->countUltRight > 6) {
+  if(svars->countUltRight > ULTCOUNTS) {
     return true;
   } else {
     return false;

@@ -45,6 +45,8 @@ void setup() {
   Serial.begin(38400);
 
   statevars.curstate = StartSt;
+  statevars.oldUltLeft = 150;
+  statevars.oldUltRight = 60;
 
   // LED White during calibration
   initLED();
@@ -67,4 +69,8 @@ void loop() {
   Transition(&statevars);
   //printtransition();
   Actuate(&statevars);
+
+  if(statevars.curstate == SrcForw) {
+    delay(20);
+  }
 }

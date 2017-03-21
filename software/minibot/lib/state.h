@@ -27,17 +27,22 @@ typedef struct {
   float curheading;
   float tarheading;
 
+  int countTopa;
+  int countDesca;
+
   float a[3][NUM_FILTER];
   float g[3][NUM_FILTER];
-  float m[3][NUM_FILTER];
-  float v[3][NUM_FILTER];
 
   unsigned long t[NUM_FILTER];
   unsigned long tartime;
 
-  long leftdist[NUM_FILTER];
-  long frontdist[NUM_FILTER];
-  long rightdist[NUM_FILTER];
+  int oldUltLeft;
+  int newUltLeft;
+  int countUltLeft;
+  int oldUltRight;
+  int newUltRight;
+  int countUltRight;
+  int ultFront;
 
   State curstate;
   bool transition;

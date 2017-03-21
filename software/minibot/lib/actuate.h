@@ -19,7 +19,7 @@ extern VexMotor RightMotor;
 //   0xFF007F, // : Red Pink
 //   0xFFFFFF, // : White
 //   0x000000  // : Black
-// };        
+// };
 
 const unsigned long StateColours[] = {
   0xFF0000, //  : Red
@@ -65,7 +65,7 @@ void Actuate(StateVariables* svars) {
       break;
     case AprWall:
       if (svars->transition) {
-        svars->tartime = svars->t[0] + 7.05*1e6;
+        svars->tartime = svars->t[0] + 5*1e6;
       }
       break;
     case TopWall:

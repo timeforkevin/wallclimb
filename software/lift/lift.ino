@@ -48,12 +48,12 @@ void setup() {
 
     //once at the top, start winch
 
-  LiftMotor.VexMotorWrite(10);
+  LiftMotor.VexMotorWrite(0);
   RightMotor.VexMotorWrite(50);
   LeftMotor.VexMotorWrite(50);
-  WinchMotor.VexMotorWrite(100); // +ve
 
   delay(350);
+  WinchMotor.VexMotorWrite(100); // +ve
   RightMotor.VexMotorWrite(0);
   LeftMotor.VexMotorWrite(0);
   LiftMotor.VexMotorWrite(0);

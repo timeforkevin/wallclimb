@@ -6,11 +6,9 @@
 
 #define STARTSTOPACC 0.7
 #define GRAVITY 9.81
-#define ULTRATHRESH 15
-#define ULTRATRHESHR 10
-#define MINULTRA 30
+#define MINULTRA 20
 #define EPS 40
-#define MAXBASE2DIST 150
+#define RAMPDIST 150
 #define ULTCOUNTS 10
 
 typedef bool (*TransTestFunc)(const StateVariables*);
@@ -115,7 +113,8 @@ bool atwall_(const StateVariables* svars) {
 }
 
 bool foundF_(const StateVariables* svars) {
-  if (svars->ultFront < MAXBASE2DIST) {
+  if (svars->ultFront < MINULTRA &&
+      svars->countUltLeft < ULTCOUNTS/3) {
     return true;
   } else {
     return false;
@@ -132,12 +131,12 @@ const TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 /* AprWall */{ __false, __false, atwall_, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
 /* TopWall */{ __false, __false, __false, descend, __false, __false, __false, __false, __false, __false, __false, __false, __false },
 /* DesWall */{ __false, __false, __false, __false, upright, __false, __false, __false, __false, __false, __false, __false, __false },
-/* AdjHead */{ __false, __false, __false, __false, __false, ___true, __false, __false, __false, __false, __false, __false, __false },
-/* CheckFo */{ __false, __false, __false, __false, __false, __false, nFoundF, __false, __false, __false, foundF_, __false, __false },
-/* SrcForw */{ __false, __false, __false, __false, __false, __false, __false, foundL_, __false, hitend_, __false, __false, __false },
+/* AdjHead NOT USED ******************************************************************************************************************/{ __false, __false, __false, __false, __false, __false, ___true, __false, __false, __false, __false, __false, __false },
+/* CheckFo NOT USED ******************************************************************************************************************/{ __false, __false, __false, __false, __false, __false, nFoundF, __false, __false, __false, foundF_, __false, __false },
+/* SrcForw */{ __false, __false, __false, __false, __false, __false, __false, foundL_, __false, __false, __false, foundF_, __false },
 /* Turn90L */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, __false, __false },
 /* Turn90R */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, __false, __false },
-/* Turn180 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
+/* Turn180 NOT USED ******************************************************************************************************************/{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
 /* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, hitend_, __false },
 /* ClimbB2 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
 /* StopSta */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true }

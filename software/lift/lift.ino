@@ -38,14 +38,17 @@ void setup() {
   RightMotor.VexMotorWrite(50);
   LeftMotor.VexMotorWrite(50);
   delay(350);
-
-  //Drive winch, drop minibot
-  WinchMotor.VexMotorWrite(100); // +ve
   
   //Stop
   RightMotor.VexMotorWrite(0);
   LeftMotor.VexMotorWrite(0);
   LiftMotor.VexMotorWrite(0);
+
+  //Wait a little
+  delay(300);
+  
+  //Drive winch, drop minibot
+  WinchMotor.VexMotorWrite(100); // +ve
 
   delay(7000);
 

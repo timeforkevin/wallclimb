@@ -41,6 +41,15 @@ void printtransition() {
   }
 }
 
+void printultra() {
+  Serial.print("Left: ");
+  Serial.print(statevars.newUltLeft);
+  Serial.print(" Right: ");
+  Serial.print(statevars.newUltRight);
+  Serial.print(" Front: ");
+  Serial.println(statevars.ultFront);
+}
+
 void setup() {
   Serial.begin(38400);
 
@@ -66,11 +75,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Measure(&statevars);
+  //printultra();
   Transition(&statevars);
-  //printtransition();
   Actuate(&statevars);
-
-  if(statevars.curstate == SrcForw) {
-    delay(20);
-  }
 }

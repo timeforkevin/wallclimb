@@ -12,7 +12,7 @@
 #define RIGHTREVERSED true
 
 #define LEFTBIAS 1.0
-#define RIGHTBIAS 0.60
+#define RIGHTBIAS 0.55
 
 #endif
 

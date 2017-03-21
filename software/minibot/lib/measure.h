@@ -55,13 +55,19 @@ void Measure(StateVariables* svars) {
 
     case CheckFo:
     case AprBase:
+      // Delay for eliminating ultrasonic crosstalk
+      delay(7);
       frontdist = FrontUltra.getDistance();
       svars->ultFront = (frontdist) ? frontdist : svars->ultFront;
       break;
 
     case SrcForw:
+      // Delay for eliminating ultrasonic crosstalk
+      delay(7);
       leftdist = LeftUltra.getDistance();
+      delay(7);
       frontdist = FrontUltra.getDistance();
+      delay(7);
       rightdist = RightUltra.getDistance();
       svars->newUltLeft = (leftdist) ? leftdist : svars->newUltLeft;
       svars->ultFront = (frontdist) ? frontdist : svars->ultFront;

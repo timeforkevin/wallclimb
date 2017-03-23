@@ -29,11 +29,11 @@ const unsigned long StateColours[] = {
   0x0000FF, //  : Blue
   0xFF00FF, //  : Magenta
   0xFFFF00, //  : Orange
-  0xFFFF00, //  : Yellow Green
+  0x00FF00, //  : Yellow Green
   0x00FFFF, //  : Green Blue
-  0x00FFFF, //  : Light Blue
-  0xFF0000, // : Red (end)
-  0xFF007F, // : Red Pink
+  0x0000FF, //  : Light Blue
+  0xFF00FF, // : Purple
+  0x000000, // : Black
   0xFFFFFF, // : White
   0x000000  // : Black
 };
@@ -73,6 +73,8 @@ void DriveForward() {
 }
 
 void Actuate(StateVariables* svars) {
+  // Update colour to represent state
+  writeLEDColour(StateColours[svars->curstate]);
   switch (svars->curstate) {
     case StartSt:
       break;
@@ -131,15 +133,6 @@ void Actuate(StateVariables* svars) {
       RightMotor.VexMotorWrite(20); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
       LeftMotor.VexMotorWrite(100);
       delay(1000);
-      RightMotor.VexMotorWrite(0); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
-      LeftMotor.VexMotorWrite(0);
-      delay(200);
-      RightMotor.VexMotorWrite(-100); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
-      LeftMotor.VexMotorWrite(100);
-      delay(200);
-      RightMotor.VexMotorWrite(0); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
-      LeftMotor.VexMotorWrite(0);
-      delay(200);
       RightMotor.VexMotorWrite(100); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
       LeftMotor.VexMotorWrite(100);
       delay(500);
@@ -150,6 +143,4 @@ void Actuate(StateVariables* svars) {
       LeftMotor.VexMotorWrite(0);
     break;
   }
-  // Update colour to represent state
-  writeLEDColour(StateColours[svars->curstate]);
 }

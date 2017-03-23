@@ -6,7 +6,6 @@
 
 #define STARTSTOPACC 0.7
 #define GRAVITY 9.81
-#define MINULTRA 15
 #define EPS 40
 #define RAMPDIST 150
 #define ULTCOUNTS 10
@@ -113,7 +112,7 @@ bool timerUp(const StateVariables* svars) {
 }
 
 bool foundF_(const StateVariables* svars) {
-  if (svars->ultFront < MINULTRA &&
+  if (svars->ultFront < 15 &&
       svars->countUltLeft < ULTCOUNTS/3) {
     return true;
   } else {
@@ -139,7 +138,7 @@ const TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 /* Turn180 NOT USED ******************************************************************************************************************/{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
 /* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, hitend_, timerUp },
 /* ClimbB2 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
-/* StopSta */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true }
+/* StopSta */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false }
 };
 
 // Tests each transition condition and makes the neccessary transition

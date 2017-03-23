@@ -53,7 +53,7 @@ void printultra() {
 void setup() {
   Serial.begin(38400);
 
-  statevars.curstate = StartSt;
+  statevars.curstate = SrcForw;
   statevars.oldUltLeft = 150;
   statevars.oldUltRight = 60;
 

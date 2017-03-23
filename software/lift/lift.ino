@@ -20,17 +20,19 @@ void setup() {
   LiftMotor.VexMotorWrite(100);
   delay(1500);
   
-  //Turn left
-  RightMotor.VexMotorWrite(30);
+  //Turn right
+  LeftMotor.VexMotorWrite(100);
+  RightMotor.VexMotorWrite(35);
   delay(1500);
   
-  //Turn right
+  //Turn left
+  LeftMotor.VexMotorWrite(35);
   RightMotor.VexMotorWrite(100);
-  LeftMotor.VexMotorWrite(25);
   delay(1500);
 
   //Approach wall
   LeftMotor.VexMotorWrite(100);
+  RightMotor.VexMotorWrite(100);
   delay(1200);
 
   //Press against wall

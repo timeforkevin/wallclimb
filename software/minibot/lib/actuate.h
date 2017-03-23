@@ -65,7 +65,7 @@ void Actuate(StateVariables* svars) {
       break;
     case AprWall:
       if (svars->transition) {
-        svars->tartime = svars->t[0] + 5.5*1e6;
+        svars->tartime = svars->t[0] + 6*1e6;
       }
       break;
     case TopWall:

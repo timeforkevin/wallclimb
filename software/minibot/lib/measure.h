@@ -73,19 +73,19 @@ void Measure(StateVariables* svars) {
       svars->ultFront = (frontdist) ? frontdist : svars->ultFront;
       svars->newUltRight = (rightdist) ? rightdist : svars->newUltRight;
 
-      if(abs(svars->newUltLeft - svars->oldUltLeft) > 30) {
+      if(svars->oldUltLeft - svars->newUltLeft > 20) {
         svars->countUltLeft += 1;
       }
-      else {
+      else if (abs(svars->newUltLeft - svars->oldUltLeft) < 20) {
         if(svars->countUltLeft>0) {
           svars->countUltLeft -= 1;
         }
         svars->oldUltLeft = svars->newUltLeft;
       }
-      if(abs(svars->newUltRight - svars->oldUltRight) > 30) {
+      if(svars->oldUltRight - svars->newUltRight > 20) {
         svars->countUltRight += 1;
       }
-      else {
+      else if (abs(svars->newUltRight - svars->oldUltRight) < 20) {
         if(svars->countUltRight>0) {
           svars->countUltRight -= 1;
         }

@@ -6,7 +6,7 @@
 
 #define STARTSTOPACC 0.7
 #define GRAVITY 9.81
-#define MINULTRA 20
+#define MINULTRA 15
 #define EPS 40
 #define RAMPDIST 150
 #define ULTCOUNTS 10
@@ -97,14 +97,14 @@ bool facetar(const StateVariables* svars) {
 }
 
 bool hitend_(const StateVariables* svars) {
-  if (svars->ultFront < MINULTRA) {
+  if (svars->ultFront < 20) {
     return true;
   } else {
     return false;
   }
 }
 
-bool atwall_(const StateVariables* svars) {
+bool timerUp(const StateVariables* svars) {
   if (svars->t[0] > svars->tartime) {
     return true;
   } else {
@@ -128,7 +128,7 @@ bool nFoundF(const StateVariables* svars) {
 const TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 {           /* StartSt  AprWall  TopWall  DesWall  AdjHead  CheckFo  SrcForw  Turn90L  Turn90R  Turn180  AprBase  ClimbB2 StopSta */
 /* StartSt */{ __false, moving_, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
-/* AprWall */{ __false, __false, atwall_, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
+/* AprWall */{ __false, __false, timerUp, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false },
 /* TopWall */{ __false, __false, __false, descend, __false, __false, __false, __false, __false, __false, __false, __false, __false },
 /* DesWall */{ __false, __false, __false, __false, upright, __false, __false, __false, __false, __false, __false, __false, __false },
 /* AdjHead NOT USED ******************************************************************************************************************/{ __false, __false, __false, __false, __false, __false, ___true, __false, __false, __false, __false, __false, __false },
@@ -137,7 +137,7 @@ const TransTestFunc TransTests[NUM_STATES][NUM_STATES] =
 /* Turn90L */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, __false, __false },
 /* Turn90R */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true, __false, __false },
 /* Turn180 NOT USED ******************************************************************************************************************/{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
-/* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, hitend_, __false },
+/* AprBase */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, hitend_, timerUp },
 /* ClimbB2 */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true },
 /* StopSta */{ __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, __false, ___true }
 };

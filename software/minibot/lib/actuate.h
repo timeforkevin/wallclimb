@@ -40,13 +40,13 @@ const unsigned long StateColours[] = {
 
 void TurnHeading(float turnangle) {
   if (turnangle > 0) {
-    RightMotor.VexMotorWrite(TURN_SPEED);
-    LeftMotor.VexMotorWrite(-TURN_SPEED);
-    delay(400*abs(turnangle));
+    RightMotor.VexMotorWrite(28);
+    LeftMotor.VexMotorWrite(-28);
+    delay(250*abs(turnangle));
 
   } else {
-    RightMotor.VexMotorWrite(-TURN_SPEED);
-    LeftMotor.VexMotorWrite(TURN_SPEED);
+    RightMotor.VexMotorWrite(-28);
+    LeftMotor.VexMotorWrite(28);
     delay(450*abs(turnangle));
   }
 
@@ -54,9 +54,22 @@ void TurnHeading(float turnangle) {
   LeftMotor.VexMotorWrite(0);
 }
 
+
+void DriveForwardSlow() {
+  RightMotor.VexMotorWrite(25);
+  LeftMotor.VexMotorWrite(40);
+}
+
+void StopDrive() {
+  RightMotor.VexMotorWrite(0);
+  LeftMotor.VexMotorWrite(0);
+}
+
 void DriveForward() {
-  RightMotor.VexMotorWrite(SPEED_MAX);
-  LeftMotor.VexMotorWrite(SPEED_MAX);
+  RightMotor.VexMotorWrite(58);
+  // Delayed start for Left Motor
+  delay(15);
+  LeftMotor.VexMotorWrite(100);
 }
 
 void Actuate(StateVariables* svars) {
@@ -84,7 +97,11 @@ void Actuate(StateVariables* svars) {
 
     case SrcForw:
       // Drive straight
-      DriveForward();
+      if (svars->countUltLeft > 2) {
+        StopDrive();
+      } else {
+        DriveForward();
+      }
       break;
 
     case Turn90L:
@@ -104,12 +121,28 @@ void Actuate(StateVariables* svars) {
 
     case AprBase:
       // Drive straight
+      if (svars->transition) {
+        svars->tartime = svars->t[0] + 5*1e6;
+      }
       DriveForward();
     break;
 
     case ClimbB2:
-      RightMotor.VexMotorWrite(50); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
-      delay(1500);
+      RightMotor.VexMotorWrite(20); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
+      LeftMotor.VexMotorWrite(100);
+      delay(1000);
+      RightMotor.VexMotorWrite(0); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
+      LeftMotor.VexMotorWrite(0);
+      delay(200);
+      RightMotor.VexMotorWrite(-100); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
+      LeftMotor.VexMotorWrite(100);
+      delay(200);
+      RightMotor.VexMotorWrite(0); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
+      LeftMotor.VexMotorWrite(0);
+      delay(200);
+      RightMotor.VexMotorWrite(100); // CHANGE THIS IF IT'S TURNING TOO MUCH AT THE END!!!
+      LeftMotor.VexMotorWrite(100);
+      delay(500);
     break;
 
     case StopSta:

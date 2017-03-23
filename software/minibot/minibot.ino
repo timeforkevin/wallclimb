@@ -10,8 +10,8 @@
 
   StateVariables statevars = {0};
 
-  VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED, LEFTBIAS);
-  VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED, RIGHTBIAS);
+  VexMotor LeftMotor(LEFTMOTORPIN, LEFTREVERSED);
+  VexMotor RightMotor(RIGHTMOTORPIN, RIGHTREVERSED);
 
   Ultrasonic RightUltra(RIGHTECHOPIN, RIGHTTRIGPIN);
   Ultrasonic LeftUltra(LEFTECHOPIN, LEFTTRIGPIN);
@@ -43,17 +43,20 @@ void printtransition() {
 
 void printultra() {
   Serial.print("Left: ");
-  Serial.print(statevars.newUltLeft);
-  Serial.print(" Right: ");
-  Serial.print(statevars.newUltRight);
-  Serial.print(" Front: ");
-  Serial.println(statevars.ultFront);
+  for (int i = 0; i < statevars.newUltLeft/5; i++) {
+    Serial.print("*");
+  }
+  Serial.println();
+//  Serial.print(" Right: ");
+//  Serial.print(statevars.newUltRight);
+//  Serial.print(" Front: ");
+//  Serial.println(statevars.ultFront);
 }
 
 void setup() {
   Serial.begin(38400);
 
-  statevars.curstate = SrcForw;
+  statevars.curstate = StartSt;
   statevars.oldUltLeft = 150;
   statevars.oldUltRight = 60;
 
@@ -75,7 +78,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Measure(&statevars);
-  //printultra();
+//  if (statevars.curstate == SrcForw) {
+//    printultra();
+//  }
   Transition(&statevars);
   Actuate(&statevars);
 }
